@@ -1,0 +1,14 @@
+version: '3'
+services:
+  server:
+    build: .
+    ports:
+      - 15777:15777/udp
+      - 15000:15000/udp
+      - 7777:7777/udp
+    user: steam
+    volumes:
+      - gamedata:/home/steam/.config/Epic/FactoryGame/Saved/SaveGames/server
+    restart: unless-stopped
+volumes:
+  gamedata:
