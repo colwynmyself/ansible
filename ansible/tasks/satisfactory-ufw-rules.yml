@@ -1,0 +1,21 @@
+- name: Install ufw
+  package:
+    name: ufw
+- name: ufw - Allow satisfactory 7777
+  ufw:
+    comment: Satisfactory Game port
+    rule: allow
+    port: 7777
+    proto: udp
+- name: ufw - Allow satisfactory 15000
+  ufw:
+    comment: Satisfactory Beacon port
+    rule: allow
+    port: 15000
+    proto: udp
+- name: ufw - Allow satisfactory 15777
+  ufw:
+    comment: Satisfactory Query port
+    rule: allow
+    port: 15777
+    proto: udp

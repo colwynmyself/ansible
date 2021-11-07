@@ -1,0 +1,43 @@
+---
+- name: Configure Satisfactory dedicated server
+  hosts: satisfactory
+  vars:
+    ansible_become: true
+  tasks:
+    # base packages
+    - name: Update packages and install base packages
+      package:
+        name:
+          - acl
+          - nmap
+          - jq
+          - curl
+          - wget
+          - tmux
+          - screen
+        update_cache: yes
+    # ufw
+    - name: Install ufw
+      package:
+        name: ufw
+    - name: Configure ufw basics
+      ufw:
+        default: reject
+        logging: 'on'
+    - name: ufw - Allow limited ssh
+      ufw:
+        rule: limit
+        port: 22
+    - name: Satisfactory ufw rules
+      include: '../tasks/satisfactory-ufw-rules.yml'
+    - name: Enable ufw
+      ufw:
+        state: enabled
+    # ssh
+    - name: Setup ssh
+      import_role:
+        name: '../roles/better-ssh'
+    # satisfactory server
+    - name: Install and configure Satisfactory server
+      import_role:
+        name: ../roles/satisfactory-dedicated-server

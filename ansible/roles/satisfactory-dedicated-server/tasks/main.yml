@@ -1,0 +1,69 @@
+- name: Install dependencies
+  package:
+    name: "{{ satisfactory_packages }}"
+    update_cache: yes
+    state: latest
+  tags: satisfactory
+# - name: Add multiverse
+#   apt_repository:
+#     repo: multiverse
+#     state: present
+#   tags: satisfactory
+- name: Enable i386 architecture
+  command: dpkg --add-architecture i386
+  tags: satisfactory
+- name: Update all packages
+  apt:
+    update_cache: yes
+  tags: satisfactory
+- name: Add steam user
+  user:
+    name: steam
+    create_home: yes
+    shell: /bin/bash
+  tags: satisfactory
+# steam user commands
+- name: Check if steamcmd has been installed
+  ansible.builtin.stat:
+    path: "{{ steam_install_dir }}/steamcmd.sh"
+  register: steamcmd_downloaded
+- name: Install steamcmd
+  block:
+    - name: Create steamgames repo
+      become_user: steam
+      file:
+        path: "{{ steam_install_dir }}"
+        state: directory
+        owner: steam
+        group: steam
+      tags: satisfactory
+    - name: Download steamcmd
+      become_user: steam
+      get_url:
+        url: https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+        dest: /tmp/steamcmd_linux.tar.gz
+      tags: satisfactory
+    - name: Extract steamcmd_linux.tar.gz
+      become_user: steam
+      unarchive:
+        src: /tmp/steamcmd_linux.tar.gz
+        remote_src: yes
+        dest: "{{ steam_install_dir }}"
+      tags: satisfactory
+  when: not steamcmd_downloaded.stat.exists
+  ## Install satisfactory
+- name: Install satisfactory dedicated server
+  become_user: steam
+  command: "{{ steam_install_dir }}/steamcmd.sh +login anonymous +force_install_dir {{ satisfactory_install_dir }} +app_update 1690800 validate +quit"
+  tags: satisfactory
+- name: Add satisfactory systemd file
+  template:
+    src: "../files/satisfactory.service.j2"
+    dest: "/etc/systemd/system/{{ satisfactory_service }}.service"
+    owner: root
+    group: root
+- name: Start and enable satisfactory service
+  systemd:
+    name: "{{ satisfactory_service }}"
+    state: started
+    enabled: yes

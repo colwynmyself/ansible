@@ -1,0 +1,9 @@
+---
+satisfactory_service: 'satsfactory'
+satisfactory_packages:
+  - software-properties-common
+  - apt-utils
+  - lib32gcc1
+  # - lib33stdc++6
+steam_install_dir: '/home/steam/steamgames'
+satisfactory_install_dir: '/home/steam/steamgames/SatisfactoryDedicatedServer'
