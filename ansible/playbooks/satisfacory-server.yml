@@ -37,6 +37,9 @@
     - name: Setup ssh
       import_role:
         name: '../roles/better-ssh'
+    - name: Setup Digital Ocean
+      import_role:
+        name: '../roles/digital-ocean-setup'
     # satisfactory server
     - name: Install and configure Satisfactory server
       import_role:

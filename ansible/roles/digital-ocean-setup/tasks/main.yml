@@ -1,0 +1,13 @@
+# Install Monitoring
+- name: Add Digital Ocean apt key
+  apt_key:
+    url: https://repos.insights.digitalocean.com/sonar-agent.asc
+    state: present
+- name: Add Digital Ocean repo
+  apt_repository:
+    repo: deb https://repos.insights.digitalocean.com/apt/do-agent/ main main
+    state: present
+- name: Install do-agent
+  package:
+    name: do-agent
+    update_cache: yes
