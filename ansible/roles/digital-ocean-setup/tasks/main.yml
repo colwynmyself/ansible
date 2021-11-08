@@ -11,3 +11,23 @@
   package:
     name: do-agent
     update_cache: yes
+# Setup unattended upgrades
+- name: Install unattended-upgrades
+  apt:
+    pkg:
+      - unattended-upgrades
+    state: present
+- name: Add 50unattended-upgrades
+  copy:
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    owner: root
+    group: root
+    src: '../files/unattended-upgrades/50unattended-upgrades'
+  notify: update-unattended-upgrades
+- name: Add 20auto-upgrades
+  copy:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+    src: '../files/unattended-upgrades/20auto-upgrades'
+  notify: update-unattended-upgrades

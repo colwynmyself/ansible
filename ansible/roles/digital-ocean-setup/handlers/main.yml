@@ -1,0 +1,3 @@
+- name: update-unattended-upgrades
+  command: dpkg-reconfigure --frontend noninteractive unattended-upgrades
+ 
