@@ -4,14 +4,13 @@
     update_cache: yes
     state: latest
   tags: satisfactory
-# - name: Add multiverse
-#   apt_repository:
-#     repo: multiverse
-#     state: present
-#   tags: satisfactory
+- name: Check if i386 has been enabled
+  shell: dpkg --print-foreign-architectures | grep i386 | wc -l
+  register: i386_enabled
 - name: Enable i386 architecture
   command: dpkg --add-architecture i386
   tags: satisfactory
+  when: i386_enabled == 0
 - name: Update all packages
   apt:
     update_cache: yes
@@ -24,7 +23,7 @@
   tags: satisfactory
 # steam user commands
 - name: Check if steamcmd has been installed
-  ansible.builtin.stat:
+  stat:
     path: "{{ steam_install_dir }}/steamcmd.sh"
   register: steamcmd_downloaded
 - name: Install steamcmd
