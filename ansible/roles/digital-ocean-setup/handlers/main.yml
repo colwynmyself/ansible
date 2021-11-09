@@ -1,3 +1,4 @@
 - name: update-unattended-upgrades
   command: dpkg-reconfigure --frontend noninteractive unattended-upgrades
- 
+- name: restart-fail2ban
+  command: "systemctl restart {{ fail2ban_service }}"

@@ -7,10 +7,15 @@
   apt_repository:
     repo: deb https://repos.insights.digitalocean.com/apt/do-agent/ main main
     state: present
-- name: Install do-agent
+- name: Install Digital Ocean Monitoring Agent
   package:
-    name: do-agent
+    name: "{{ digital_ocean_monitoring_service }}"
     update_cache: yes
+- name: Start and enable Digital Ocean Monitoring Agent
+  systemd:
+    name: "{{ digital_ocean_monitoring_service }}"
+    state: started
+    enabled: yes
 # Setup unattended upgrades
 - name: Install unattended-upgrades
   apt:
@@ -31,3 +36,20 @@
     group: root
     src: '../files/unattended-upgrades/20auto-upgrades'
   notify: update-unattended-upgrades
+# Install fail2ban
+- name: Install fail2ban
+  package:
+    name: "{{ fail2ban_service }}"
+    update_cache: yes
+- name: Configure fail2ban
+  copy:
+    dest: "{{ fail2ban_config_dir }}/customisation.local"
+    owner: root
+    group: root
+    src: '../files/fail2ban/customisation.local'
+  notify: restart-fail2ban
+- name: Start and enable fail2ban
+  systemd:
+    name: "{{ fail2ban_service }}"
+    state: started
+    enabled: yes

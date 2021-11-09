@@ -1,0 +1,6 @@
+[DEFAULT]
+# ban for 1 hour
+bantime = 1h
+
+[sshd]
+enabled = true
