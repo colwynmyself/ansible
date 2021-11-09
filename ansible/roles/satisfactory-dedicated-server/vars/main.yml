@@ -1,5 +1,5 @@
 ---
-satisfactory_service: 'satsfactory'
+satisfactory_service: 'satisfactory'
 satisfactory_packages:
   - software-properties-common
   - apt-utils
