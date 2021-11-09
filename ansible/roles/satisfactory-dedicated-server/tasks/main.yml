@@ -11,10 +11,6 @@
   command: dpkg --add-architecture i386
   tags: satisfactory
   when: i386_enabled == 0
-- name: Update all packages
-  apt:
-    update_cache: yes
-  tags: satisfactory
 - name: Add steam user
   user:
     name: steam
