@@ -47,10 +47,17 @@
       tags: satisfactory
   when: not steamcmd_downloaded.stat.exists
   ## Install satisfactory
-- name: Install satisfactory dedicated server
-  become_user: steam
-  command: "{{ steam_install_dir }}/steamcmd.sh +login anonymous +force_install_dir {{ satisfactory_install_dir }} +app_update 1690800 validate +quit"
-  tags: satisfactory
+- name: Check if satisfactory has been installed
+  stat:
+    path: "{{ satisfactory_install_dir }}"
+  register: satisfactory_downloaded
+- name: Install satisfactory
+  block:
+  - name: Install satisfactory dedicated server with steamcmd
+    become_user: steam
+    command: "{{ steam_install_dir }}/steamcmd.sh +login anonymous +force_install_dir {{ satisfactory_install_dir }} +app_update 1690800 validate +quit"
+    tags: satisfactory
+  when: not satisfactory_downloaded.stat.exists
 - name: Add satisfactory systemd file
   template:
     src: "../files/satisfactory.service.j2"
