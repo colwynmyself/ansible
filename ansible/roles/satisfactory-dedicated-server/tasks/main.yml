@@ -69,3 +69,10 @@
     name: "{{ satisfactory_service }}"
     state: started
     enabled: yes
+- name: Add satisfactory monitoring script
+  template:
+    src: "../files/satisfactory-up.sh.j2"
+    dest: "/usr/local/bin/satisfactory-up.sh"
+    owner: root
+    group: root
+    mode: 0755

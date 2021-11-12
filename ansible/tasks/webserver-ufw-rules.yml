@@ -1,0 +1,12 @@
+- name: ufw - allow http
+  ufw:
+    comment: http
+    rule: allow
+    port: 80
+    proto: tcp
+- name: ufw - allow https
+  ufw:
+    comment: http
+    rule: allow
+    port: 443
+    proto: tcp

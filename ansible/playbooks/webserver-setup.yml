@@ -1,6 +1,6 @@
 ---
-- name: Configure Satisfactory dedicated server
-  hosts: satisfactory
+- name: Configure Digital Ocean webserver
+  hosts: webserver
   vars:
     ansible_become: true
   tasks:
@@ -29,8 +29,8 @@
       ufw:
         rule: limit
         port: 22
-    - name: Satisfactory ufw rules
-      include: '../tasks/satisfactory-ufw-rules.yml'
+    - name: Webserver ufw rules
+      include: '../tasks/webserver-ufw-rules.yml'
     - name: Enable ufw
       ufw:
         state: enabled
@@ -41,7 +41,3 @@
     - name: Setup Digital Ocean
       import_role:
         name: '../roles/digital-ocean-setup'
-    # satisfactory server
-    - name: Install and configure Satisfactory server
-      import_role:
-        name: ../roles/satisfactory-dedicated-server
