@@ -1,9 +1,9 @@
 # Install Monitoring
-- name: Add Digital Ocean apt key
+- name: Add Digital Ocean monitoring agent apt key
   apt_key:
     url: https://repos.insights.digitalocean.com/sonar-agent.asc
     state: present
-- name: Add Digital Ocean repo
+- name: Add Digital Ocean monitoring agent repo
   apt_repository:
     repo: deb https://repos.insights.digitalocean.com/apt/do-agent/ main main
     state: present
@@ -14,6 +14,24 @@
 - name: Start and enable Digital Ocean Monitoring Agent
   systemd:
     name: "{{ digital_ocean_monitoring_service }}"
+    state: started
+    enabled: yes
+# Install droplet agent
+- name: Add Digital Ocean droplet agent apt key
+  apt_key:
+    url: https://repos-droplet.digitalocean.com/gpg.key
+    state: present
+- name: Add Digital Ocean droplet agent repo
+  apt_repository:
+    repo: deb https://repos-droplet.digitalocean.com/apt/droplet-agent/ main main
+    state: present
+- name: Install Digital Ocean Agent
+  package:
+    name: "{{ digital_ocean_agent }}"
+    update_cache: yes
+- name: Start and enable Digital Ocean Agent
+  systemd:
+    name: "{{ digital_ocean_agent }}"
     state: started
     enabled: yes
 # Setup unattended upgrades
