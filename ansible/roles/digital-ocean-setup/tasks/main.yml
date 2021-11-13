@@ -58,7 +58,6 @@
 - name: Install fail2ban
   package:
     name: "{{ fail2ban_service }}"
-    update_cache: yes
 - name: Configure fail2ban
   copy:
     dest: "{{ fail2ban_config_dir }}/customisation.local"
