@@ -15,6 +15,7 @@
           - wget
           - tmux
           - screen
+          - htop
           - postfix # cron jobs
         update_cache: yes
     # ufw
