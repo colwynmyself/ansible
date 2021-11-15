@@ -1,27 +1,9 @@
 ---
-- name: Configure Digital Ocean webserver
+- name: Configure webserver
   hosts: webserver
   vars:
     ansible_become: true
   tasks:
-    # base packages
-    - name: Update packages and install base packages
-      package:
-        name:
-          - acl
-          - nmap
-          - jq
-          - curl
-          - wget
-          - tmux
-          - screen
-          - htop
-          - postfix # cron jobs
-          - ca-certificates
-          - apt-utils
-          - apt-transport-https
-          - gnupg2
-        update_cache: yes
     # ufw
     - name: Install ufw
       package:
@@ -39,7 +21,3 @@
     - name: Enable ufw
       ufw:
         state: enabled
-    # DO setup
-    - name: Setup Digital Ocean
-      import_role:
-        name: '../roles/digital-ocean-setup'

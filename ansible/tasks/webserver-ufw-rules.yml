@@ -6,7 +6,7 @@
     proto: tcp
 - name: ufw - allow https
   ufw:
-    comment: http
+    comment: https
     rule: allow
     port: 443
     proto: tcp

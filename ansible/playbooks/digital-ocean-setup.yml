@@ -1,0 +1,24 @@
+---
+- name: Configure Digital Ocean servers
+  hosts: digitalocean
+  vars:
+    ansible_become: true
+  tasks:
+    # base packages
+    - name: Update and install base packages
+      package:
+        name:
+          - acl
+          - nmap
+          - jq
+          - curl
+          - wget
+          - tmux
+          - screen
+          - htop
+          - postfix # cron jobs
+        update_cache: yes
+    # DO setup
+    - name: Setup Digital Ocean
+      import_role:
+        name: '../roles/digital-ocean-setup'

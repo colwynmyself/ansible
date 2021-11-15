@@ -1,3 +1,12 @@
+# Base packages
+- name: Update and install packages
+  package:
+    name:
+      - ca-certificates
+      - apt-utils
+      - apt-transport-https
+      - gnupg2
+    update_cache: yes
 # Install Monitoring
 # wget -qO- https://repos.insights.digitalocean.com/install.sh | less
 - name: Add Digital Ocean monitoring agent apt key
