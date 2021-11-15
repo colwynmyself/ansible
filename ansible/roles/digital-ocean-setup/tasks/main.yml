@@ -1,4 +1,5 @@
 # Install Monitoring
+# wget -qO- https://repos.insights.digitalocean.com/install.sh | less
 - name: Add Digital Ocean monitoring agent apt key
   apt_key:
     url: https://repos.insights.digitalocean.com/sonar-agent.asc
@@ -16,22 +17,23 @@
     name: "{{ digital_ocean_monitoring_service }}"
     state: started
     enabled: yes
-# Install droplet agent
-- name: Add Digital Ocean droplet agent apt key
+# Install droplet console agent. This should already be installed on new instances
+# wget -qO- https://repos-droplet.digitalocean.com/install.sh | less
+- name: Add Digital Ocean console agent apt key
   apt_key:
     url: https://repos-droplet.digitalocean.com/gpg.key
     state: present
-- name: Add Digital Ocean droplet agent repo
+- name: Add Digital Ocean console agent repo
   apt_repository:
     repo: deb https://repos-droplet.digitalocean.com/apt/droplet-agent/ main main
     state: present
-- name: Install Digital Ocean Agent
+- name: Install Digital Ocean console agent
   package:
-    name: "{{ digital_ocean_agent }}"
+    name: "{{ digital_ocean_console_service }}"
     update_cache: yes
-- name: Start and enable Digital Ocean Agent
+- name: Start and enable Digital Ocean console agent
   systemd:
-    name: "{{ digital_ocean_agent }}"
+    name: "{{ digital_ocean_console_service }}"
     state: started
     enabled: yes
 # Setup unattended upgrades
@@ -70,3 +72,35 @@
     name: "{{ fail2ban_service }}"
     state: started
     enabled: yes
+# Configure SSH
+- name: Allow passwordless sudo
+  copy:
+    dest: /etc/sudoers.d/10-nopassword
+    owner: root
+    group: root
+    mode: '0440'
+    src: '../files/sudoers.d/10-nopassword'
+- name: Disable password authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication no"
+    backup: yes
+    state: present
+  notify:
+    - restart-ssh
+# Consider ensuring that a non-root user can login before doing this. Though TBH this is so low level I don't
+# think I care
+- name: Disable root login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+    state: present
+  notify:
+    - restart-ssh
+# I'm assuming that root will be disabled after the other tasks I care about here. This assumption may change in
+# the future. Additionally if a server is provisioned with these tasks and I add another task it'll break. That
+# means this should remain the smallest set of required tasks as possible and future playbooks should handle SSH
+# config with a `become` from the non-root user. Maybe disabling password auth/root should even be moved and this
+# should only include "Allow passwordless sudo".

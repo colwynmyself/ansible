@@ -39,10 +39,7 @@
     - name: Enable ufw
       ufw:
         state: enabled
-    # ssh
-    - name: Setup ssh
-      import_role:
-        name: '../roles/better-ssh'
+    # DO Setup
     - name: Setup Digital Ocean
       import_role:
         name: '../roles/digital-ocean-setup'
