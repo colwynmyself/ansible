@@ -11,4 +11,3 @@ There are a couple of things that need to be done before this playbook can be ru
   * To get this working you may need to enable passwordless sudo yourself
 
 That's it! As long as you can `ssh ${server_ip}` to your server, this playbook will work.
-
