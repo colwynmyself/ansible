@@ -5,9 +5,12 @@
     ansible_become: true
   tasks:
     # ufw
-    - name: Install ufw
+    - name: Install packages
       package:
-        name: ufw
+        name:
+          - ufw
+          - nginx
+        update_cache: yes
     - name: Configure ufw basics
       ufw:
         default: reject
