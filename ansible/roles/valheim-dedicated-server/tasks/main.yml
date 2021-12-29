@@ -1,0 +1,93 @@
+- name: Install dependencies
+  package:
+    name: "{{ valheim_packages }}"
+    update_cache: yes
+    state: latest
+  tags: valheim
+- name: Check if i386 has been enabled
+  shell: dpkg --print-foreign-architectures | grep i386 | wc -l
+  register: i386_enabled
+- name: Enable i386 architecture
+  command: dpkg --add-architecture i386
+  tags: valheim
+  when: i386_enabled == 0
+- name: Add steam user
+  user:
+    name: steam
+    create_home: yes
+    shell: /bin/bash
+  tags: valheim
+# steam user commands
+- name: Check if steamcmd has been installed
+  stat:
+    path: "{{ steam_install_dir }}/steamcmd.sh"
+  register: steamcmd_downloaded
+- name: Install steamcmd
+  block:
+    - name: Create steamgames repo
+      become_user: steam
+      file:
+        path: "{{ steam_install_dir }}"
+        state: directory
+        owner: steam
+        group: steam
+      tags: valheim
+    - name: Download steamcmd
+      become_user: steam
+      get_url:
+        url: https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+        dest: /tmp/steamcmd_linux.tar.gz
+      tags: valheim
+    - name: Extract steamcmd_linux.tar.gz
+      become_user: steam
+      unarchive:
+        src: /tmp/steamcmd_linux.tar.gz
+        remote_src: yes
+        dest: "{{ steam_install_dir }}"
+      tags: valheim
+  when: not steamcmd_downloaded.stat.exists
+  ## Install valheim
+- name: Check if valheim has been installed
+  stat:
+    path: "{{ valheim_install_dir }}"
+  register: valheim_downloaded
+- name: Install valheim
+  block:
+  - name: Install valheim dedicated server with steamcmd
+    become_user: steam
+    command: "{{ steam_install_dir }}/steamcmd.sh +@sSteamCmdForcePlatformType linux +login anonymous +force_install_dir {{ valheim_install_dir }} +app_update {{ valheim_app_id }} validate +quit"
+    tags: valheim
+  when: not valheim_downloaded.stat.exists
+- name: Make sure save dir exists
+  file:
+    path: "{{ valheim_save_dir }}"
+    state: directory
+    owner: steam
+    group: steam
+    mode: 0755
+  tags: valheim
+- name: Add valheim start script
+  template:
+    src: "../files/start-valheim.sh.j2"
+    dest: "{{ valheim_install_dir }}/start-valheim.sh"
+    owner: steam
+    group: steam
+    mode: 0755
+- name: Add valheim systemd file
+  template:
+    src: "../files/valheim.service.j2"
+    dest: "/etc/systemd/system/{{ valheim_service }}.service"
+    owner: root
+    group: root
+- name: Start and enable valheim service
+  systemd:
+    name: "{{ valheim_service }}"
+    state: started
+    enabled: yes
+- name: Add valheim monitoring script
+  template:
+    src: "../files/valheim-up.sh.j2"
+    dest: "/usr/local/bin/valheim-up.sh"
+    owner: root
+    group: root
+    mode: 0755

@@ -28,6 +28,8 @@
     enabled: yes
 # Install droplet console agent. This should already be installed on new instances
 # wget -qO- https://repos-droplet.digitalocean.com/install.sh | less
+# TODO: Need to check if this is already installed. DO installs it by default with a signing key and creates conflicts
+# with these steps, breaking apt-get
 - name: Add Digital Ocean console agent apt key
   apt_key:
     url: https://repos-droplet.digitalocean.com/gpg.key

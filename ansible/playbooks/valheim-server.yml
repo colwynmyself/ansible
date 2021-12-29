@@ -1,0 +1,26 @@
+---
+- name: Configure Valheim dedicated server
+  hosts: valheim
+  vars:
+    ansible_become: true
+  tasks:
+    # ufw
+    - name: Install ufw
+      package:
+        name: ufw
+    - name: Configure ufw basics
+      ufw:
+        default: reject
+        logging: 'on'
+    - name: ufw - Allow limited ssh
+      ufw:
+        rule: limit
+        port: 22
+    - name: Valheim ufw rules
+      include: '../tasks/valheim-ufw-rules.yml'
+    - name: Enable ufw
+      ufw:
+        state: enabled
+    - name: Install and configure Valheim server
+      import_role:
+        name: ../roles/valheim-dedicated-server

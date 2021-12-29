@@ -1,0 +1,18 @@
+[Unit]
+Description=Valheim dedicated server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+
+[Service]
+Environment="LD_LIBRARY_PATH=./linux64"
+ExecStartPre={{ steam_install_dir }}/steamcmd.sh +login anonymous +force_install_dir "{{ valheim_install_dir }}" +app_update "{{ valheim_app_id }}" validate +quit
+ExecStart={{ valheim_install_dir }}/start-valheim.sh
+User=steam
+Group=steam
+StandardOutput=journal
+Restart=on-failure
+KillSignal=SIGINT
+WorkingDirectory={{ valheim_install_dir }}
+
+[Install]
+WantedBy=multi-user.target
