@@ -1,6 +1,7 @@
-# Satisfactory Dedicated Server
+# Ansible
 
-This repo creates a Docker image meant to development testing and a pretty reasonable Digital Ocean server.
+Various playbooks for managing my Digital Ocean servers. Does basic setup for webservers and fairly involved setup for
+Valheim and Satisfactory servers.
 
 ## Digital Ocean Setup
 
