@@ -1,12 +1,18 @@
 - name: Install ufw
   package:
     name: ufw
-- name: ufw - Allow valheim 2456
+- name: ufw - Allow valheim 2456 TCP
   ufw:
-    comment: Valheim Game port
+    comment: Valheim Game TCP port
     rule: allow
     port: 2456
-    proto: all
+    proto: tcp
+- name: ufw - Allow valheim 2456 UDP
+  ufw:
+    comment: Valheim Game UDP port
+    rule: allow
+    port: 2456
+    proto: udp
 - name: ufw - Allow valheim 2457
   ufw:
     comment: Satisfactory Query port

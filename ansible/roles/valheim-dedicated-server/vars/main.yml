@@ -5,6 +5,7 @@ valheim_game_port: '2456'
 valheim_server_name: 'dontfuckitup'
 valheim_world_name: 'idk'
 valheim_server_password: '' # get user input here from ansible
+valheim_save_dir: '/home/steam/saves/valheim'
 valheim_packages:
   - software-properties-common
   - apt-utils
