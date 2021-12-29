@@ -38,7 +38,8 @@ DDNS is not setup as a part of these playbooks, that's a manual step I didn't wa
 1. `git clone https://github.com/colwynmyself/dynamic-dns.git`
 2. `vim dynamic-dns/src/update-record.sh`
    1. Add your Cloudflare key
-3. `sudo crontab -e`
+3. Make the record in Cloudflare. The script only updates, it will not create.
+4. `sudo crontab -e`
    1. Add `* * * * * ./dynamic-dns/src/update-record.sh colwyn.me <subdomain> >/dev/null 2>&1`
 
 ## Uptime Monitoring
