@@ -29,3 +29,18 @@ $ sudo chsh -s /bin/bash colwyn
 ```
 
 That's it! As long as you can `ssh ${server_ip}` to your server, this playbook will work.
+
+## DDNS
+
+DDNS is not setup as a part of these playbooks, that's a manual step I didn't want to deal with.
+
+1. `git clone https://github.com/colwynmyself/dynamic-dns.git`
+2. `vim dynamic-dns/src/update-record.sh`
+   1. Add your Cloudflare key
+3. `sudo crontab -e`
+   1. Add `* * * * * ./dynamic-dns/src/update-record.sh colwyn.me <subdomain> >/dev/null 2>&1`
+
+## Uptime Monitoring
+
+1. `sudo crontab -e`
+   1. add `* * * * * /usr/local/bin/valheim-up.sh && curl '<uptime-url>' >/dev/null 2>&1`
