@@ -16,6 +16,7 @@
           - tmux
           - screen
           - htop
+          - unzip
           - postfix # cron jobs
         update_cache: yes
     # DO setup
