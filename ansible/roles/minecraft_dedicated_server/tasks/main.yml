@@ -1,3 +1,15 @@
+# Install Overviewer
+# http://docs.overviewer.org/en/latest/installing/#debian-ubuntu
+# TODO: Fetch this key's ID and hardcode it here
+- name: Add overviewer apt key
+  apt_key:
+    url: https://overviewer.org/debian/overviewer.gpg.asc
+    state: present
+- name: Add overviewer repo
+  apt_repository:
+    repo: deb https://overviewer.org/debian ./
+    state: present
+
 - name: Install dependencies
   package:
     name: "{{ minecraft_packages }}"

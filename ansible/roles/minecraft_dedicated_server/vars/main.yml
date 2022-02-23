@@ -31,3 +31,4 @@ minecraft_packages:
   - rsync
   - socat
   - iptables
+  - minecraft-overviewer
