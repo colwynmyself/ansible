@@ -1,6 +1,7 @@
 # Ansible Playbooks
 
 - [Ansible Playbooks](#ansible-playbooks)
+  - [Setup](#setup)
   - [Playbooks](#playbooks)
     - [Digital Ocean Setup](#digital-ocean-setup)
     - [Webserver Setup](#webserver-setup)
@@ -10,6 +11,19 @@
 
 This folder contains a number of playbooks that I use for managing my servers. Read [the root `README.md`](../README.md)
 if you want some more context.
+
+## Setup
+
+Choose your Python virtualenv handler of choice, I use [`pyenv`](https://github.com/pyenv/pyenv) and
+[`pyenv-virtualenv`](https://github.com/pyenv/pyenv-virtualenv).
+
+1. Setup your virtualenv (change this for your setup)
+   1. `pyenv install 3.8.12`
+   2. `pyenv virtualenv 3.8.12 ansible`
+   3. `pyenv activate ansible`
+2. `pip install --upgrade pip poetry`
+   1. [Poetry's GitHub](https://github.com/python-poetry/poetry), use it if you like sanity
+3. `poetry install`
 
 ## Playbooks
 

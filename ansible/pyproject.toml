@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ansible"
+name = "assorted-ansible-tools"
 version = "0.1.0"
 description = ""
 authors = ["Colwyn Fritze-Moor <colwyn@colwyn.me>"]
