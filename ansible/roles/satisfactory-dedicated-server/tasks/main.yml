@@ -5,7 +5,11 @@
     state: latest
   tags: satisfactory
 - name: Check if i386 has been enabled
-  shell: dpkg --print-foreign-architectures | grep i386 | wc -l
+  shell: |
+    set -o pipefail
+    dpkg --print-foreign-architectures | grep i386 | wc -l
+  args:
+    executable: /bin/bash
   register: i386_enabled
 - name: Enable i386 architecture
   command: dpkg --add-architecture i386
