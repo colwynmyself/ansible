@@ -16,8 +16,6 @@
       ufw:
         rule: limit
         port: 22
-    - name: ufw rules
-      include: '../tasks/minecraft-ufw-rules.yml'
     - name: Enable ufw
       ufw:
         state: enabled

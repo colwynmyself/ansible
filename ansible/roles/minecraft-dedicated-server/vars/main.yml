@@ -16,6 +16,7 @@ minecraft_bin_dir: '/usr/local/bin'
 minecraft_install_dir: '/opt/mscs'
 minecraft_mscs_git_dir: '/home/minecraft/mscs'
 minecraft_packages:
+  - ufw
   - openjdk-17-jre # default-jre installs too old of a version
   - perl
   - libjson-perl

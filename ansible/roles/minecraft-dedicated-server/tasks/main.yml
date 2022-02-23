@@ -104,3 +104,11 @@
     mode: 0664
   notify:
   - restart-minecraft
+
+# Configure ufw
+- name: ufw - Allow minecraft 25565 TCP
+  ufw:
+    comment: Minecraft Game TCP port
+    rule: allow
+    port: 25565
+    proto: tcp
