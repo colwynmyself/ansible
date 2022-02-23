@@ -4,4 +4,9 @@ skip_list:
   - no-changed-when  # False positive for bash commands
   - package-latest  # I'm lazy, sorry about it
 mock_modules:
+  # ansible-lint doesn't work out of the box with non-default modules, just add this as a mock so that we don't have to
+  # deal with the errors
+  # https://www.reddit.com/r/ansible/comments/r1926p/ansiblelint_not_finding_installed_collections/
+  # https://github.com/ansible-community/ansible-lint/issues/1354
+  # https://github.com/ansible-community/ansible-lint/issues/1771
   - community.general.ufw
