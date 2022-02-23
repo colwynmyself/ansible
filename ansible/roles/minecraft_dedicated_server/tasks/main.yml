@@ -161,6 +161,15 @@
     mode: '0755'
     owner: minecraft
     group: minecraft
+# Checking if a file contains a line: https://stackoverflow.com/a/54525651
+- name: Check if Certbot has already run for {{ minecraft_overviewer_maps_domain }}
+  lineinfile:
+    path: "{{ minecraft_nginx_conf_dir }}/minecraft.conf"
+    regexp: '# managed by Certbot'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: certbot_run
 - name: Add {{ minecraft_nginx_conf_dir }}/minecraft.conf
   template:
     src: "files/minecraft.nginx.conf.j2"
@@ -169,9 +178,21 @@
     group: root
     mode: 0644
   notify: reload-nginx
+  when: not certbot_run.found
 - name: Start and enable nginx service
   systemd:
     name: "{{ minecraft_nginx_service }}"
     state: started
     enabled: yes
 # Setup certbot
+- name: Install certbot
+  community.general.snap:
+    name: certbot
+    classic: yes
+- name: symlink certbot
+  ansible.builtin.file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    owner: root
+    group: root
+    state: link

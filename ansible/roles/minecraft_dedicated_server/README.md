@@ -17,7 +17,14 @@ install dir, and more!
 ### TLS
 
 There will be an Nginx server for Minecraft Overviewer maps served on port `80` and `443`. No certificate will be
-generated yet, I recommend using LetsEncrypt to generate your cert.
+generated yet, I recommend using LetsEncrypt to generate your cert. `certbot` will be installed so the steps to get a
+cert are:
+
+1. Make sure you have DNS pointing at your server - visit `http://${hostname}` to check
+2. Run `sudo certbot --nginx` and follow the prompts
+
+That's it! Once you've run Certbot this playbook won't overwrite the changes to the Nginx config. You can find the
+config in `/etc/nginx/conf.d` if you do need to edit it.
 
 ### General Server Configuration
 
