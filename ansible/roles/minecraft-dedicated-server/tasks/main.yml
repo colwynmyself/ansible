@@ -89,9 +89,13 @@
     name: "{{ minecraft_service }}"
     state: started
     enabled: yes
+
 # We can edit config now! Setup PaperMC
+
 # Global config is at {{ minecraft_install_die }}/mscs.defaults
 # Server config is at {{ minecraft_install_die }}/worlds/{{ minecraft_default_world }}/mscs.properties
+
+# Source: https://stackoverflow.com/a/54525651
 - name: Check if {{ minecraft_default_world }} has been configured with PaperMC and is up to date
   lineinfile:
     path: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
