@@ -1,7 +1,8 @@
 # Minecraft Dedicated Server
 
-- [Minecraft Dedicated Server](#minecraft_dedicated_server)
+- [Minecraft Dedicated Server](#minecraft-dedicated-server)
   - [Post installation](#post-installation)
+    - [TLS](#tls)
     - [General Server Configuration](#general-server-configuration)
     - [Allowlist](#allowlist)
 
@@ -12,6 +13,11 @@ and [PaperMC](https://papermc.io/) installed. Check `vars/main.yml` for things l
 install dir, and more!
 
 ## Post installation
+
+### TLS
+
+There will be an Nginx server for Minecraft Overviewer maps served on port `80` and `443`. No certificate will be
+generated yet, I recommend using LetsEncrypt to generate your cert.
 
 ### General Server Configuration
 

@@ -20,6 +20,10 @@ minecraft_mscs_git_dir: '/home/minecraft/mscs'
 
 # Overviewer
 minecraft_overviewer_git_dir: '/home/minecraft/overviewer'
+minecraft_overviewer_maps_dir: '/var/www/mscs'
+minecraft_overviewer_maps_domain: 'minecraft.colwyn.me'
+minecraft_nginx_conf_dir: '/etc/nginx/conf.d'
+minecraft_nginx_service: nginx
 
 minecraft_packages:
   - ufw
@@ -42,3 +46,4 @@ minecraft_packages:
   - python3-pil
   - python3-dev
   - python3-numpy
+  - nginx

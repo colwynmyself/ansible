@@ -9,18 +9,15 @@
     create_home: yes
     shell: /bin/bash
 # mscs installation
-- name: Check if mscs has been installed
-  stat:
-    path: "{{ minecraft_bin_dir }}/mscs"
-  register: mscs_downloaded
+- name: Clone mscs
+  become_user: minecraft # make sure the right user owns the folder
+  git:
+    repo: 'https://github.com/MinecraftServerControl/mscs.git'
+    dest: "{{ minecraft_mscs_git_dir }}"
+    version: main
+  register: mscs_git
 - name: Install mscs
   block:
-  - name: Clone mscs
-    become_user: minecraft # make sure the right user owns the folder
-    git:
-      repo: 'https://github.com/MinecraftServerControl/mscs.git'
-      dest: "{{ minecraft_mscs_git_dir }}"
-      version: main
   - name: Make sure {{ minecraft_install_dir }} exists
     file:
       path: "{{ minecraft_install_dir }}"
@@ -52,7 +49,7 @@
       chdir: "{{ minecraft_mscs_git_dir }}"
       creates: "/etc/bash_completion.d/mscs"
       cmd: "install -m 0644 mscs.completion /etc/bash_completion.d/mscs"
-  when: not mscs_downloaded.stat.exists
+  when: mscs_git.before != mscs_git.after
 # Setup crons and monitoring
 - name: Add backup cron
   template:
@@ -114,6 +111,18 @@
     rule: allow
     port: 25565
     proto: tcp
+- name: ufw - Allow minecraft maps 80 TCP
+  community.general.ufw:
+    comment: Minecraft Game TCP port
+    rule: allow
+    port: 80
+    proto: tcp
+- name: ufw - Allow minecraft maps 443 TCP
+  community.general.ufw:
+    comment: Minecraft Game TCP port
+    rule: allow
+    port: 443
+    proto: tcp
 
 # Install Overviewer from source since Ubuntu 20.04 packages are broken
 # http://docs.overviewer.org/en/latest/building/#linux
@@ -135,3 +144,34 @@
   lineinfile:
     line: export PATH=$PATH:{{ minecraft_overviewer_git_dir }}
     path: /home/minecraft/.profile
+- name: Add mscs-maps-location to mscs.defaults
+  lineinfile:
+    regexp: '^mscs-maps-location='
+    line: "mscs-maps-location={{ minecraft_overviewer_maps_dir }}"
+    path: "{{ minecraft_install_dir }}/mscs.defaults"
+- name: Add mscs-maps-url to mscs.defaults
+  lineinfile:
+    regexp: '^mscs-maps-url='
+    line: "mscs-maps-url=https://{{ minecraft_overviewer_maps_domain }}"
+    path: "{{ minecraft_install_dir }}/mscs.defaults"
+- name: Ensure {{ minecraft_overviewer_maps_dir }} exists
+  file:
+    path: "{{ minecraft_overviewer_maps_dir }}"
+    state: directory
+    mode: '0755'
+    owner: minecraft
+    group: minecraft
+- name: Add {{ minecraft_nginx_conf_dir }}/minecraft.conf
+  template:
+    src: "files/minecraft.nginx.conf.j2"
+    dest: "{{ minecraft_nginx_conf_dir }}/minecraft.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload-nginx
+- name: Start and enable nginx service
+  systemd:
+    name: "{{ minecraft_nginx_service }}"
+    state: started
+    enabled: yes
+# Setup certbot
