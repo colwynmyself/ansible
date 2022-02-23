@@ -10,3 +10,4 @@ mock_modules:
   # https://github.com/ansible-community/ansible-lint/issues/1354
   # https://github.com/ansible-community/ansible-lint/issues/1771
   - community.general.ufw
+  - community.general.snap

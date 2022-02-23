@@ -51,7 +51,7 @@
       cmd: "install -m 0644 mscs.completion /etc/bash_completion.d/mscs"
   when: mscs_git.before != mscs_git.after
 # Setup crons and monitoring
-- name: Add backup cron
+- name: Add cron jobs
   template:
     src: "files/minecraft.cron.j2"
     dest: "/etc/cron.d/minecraft"
