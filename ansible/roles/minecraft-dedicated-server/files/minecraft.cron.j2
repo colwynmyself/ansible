@@ -1,2 +1,5 @@
+HOME=/opt/mscs
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 # Minecraft backup worlds every hour
 0 * * * * minecraft {{ minecraft_bin_dir }}/mscs backup {{ minecraft_default_world }}
