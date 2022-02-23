@@ -1,0 +1,18 @@
+server {
+  listen 443;
+  server_name {{ minecraft_overviewer_maps_domain }};
+  index index.html;
+
+  root /var/www/mscs;
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+
+server {
+  listen 80;
+  server_name {{ minecraft_overviewer_maps_domain }};
+
+  return 301 https://{{ minecraft_overviewer_maps_domain }}$request_uri;
+}

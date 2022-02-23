@@ -2,3 +2,7 @@
   # import* is ignored, use include_tasks
   # https://github.com/ansible/ansible/pull/61060/files
   include_tasks: tasks/restart-minecraft.yml
+- name: reload-nginx
+  service:
+    name: "{{ minecraft_nginx_service }}"
+    state: reloaded

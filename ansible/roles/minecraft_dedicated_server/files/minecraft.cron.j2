@@ -1,5 +1,7 @@
 HOME=/opt/mscs
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# Minecraft backup worlds every hour
+# Backup worlds every hour
 0 * * * * minecraft {{ minecraft_bin_dir }}/mscs backup {{ minecraft_default_world }} >/dev/null
+# Generate overviewer map every hour
+0 * * * * minecraft {{ minecraft_bin_dir }}/mscs map {{ minecraft_default_world }} >/dev/null
