@@ -49,7 +49,7 @@ located by default at `/opt/mscs/worlds/friendos/whitelist.json`. Fetch UUIDs fr
    ]
    ```
 
-3. Edit `/opt/mscs/worlds/friendos/server.properties` and set `white-list=true`
+3. Edit `/opt/mscs/worlds/friendos/server.properties` and set `white-list=true` and `enforce-whitelist=true`
 4. Stop and start the server
    1. `sudo su - minecraft`
    2. `mscs stop friendos`
