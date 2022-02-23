@@ -55,14 +55,14 @@
 # Setup crons and monitoring
 - name: Add backup cron
   template:
-    src: "../files/minecraft.cron.j2"
+    src: "files/minecraft.cron.j2"
     dest: "/etc/cron.d/minecraft"
     owner: root
     group: root
     mode: 0644
 - name: Add monitoring script
   template:
-    src: "../files/minecraft-up.sh.j2"
+    src: "files/minecraft-up.sh.j2"
     dest: "{{ minecraft_bin_dir }}/minecraft-up.sh"
     owner: root
     group: root
@@ -97,7 +97,7 @@
 
 - name: Add mscs.properties
   template:
-    src: "../files/mscs.properties.j2"
+    src: "files/mscs.properties.j2"
     dest: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
     owner: minecraft
     group: minecraft

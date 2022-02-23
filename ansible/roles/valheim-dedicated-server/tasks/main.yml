@@ -68,14 +68,14 @@
   tags: valheim
 - name: Add valheim start script
   template:
-    src: "../files/start-valheim.sh.j2"
+    src: "files/start-valheim.sh.j2"
     dest: "{{ valheim_install_dir }}/start-valheim.sh"
     owner: steam
     group: steam
     mode: 0755
 - name: Add valheim systemd file
   template:
-    src: "../files/valheim.service.j2"
+    src: "files/valheim.service.j2"
     dest: "/etc/systemd/system/{{ valheim_service }}.service"
     owner: root
     group: root
@@ -86,7 +86,7 @@
     enabled: yes
 - name: Add valheim monitoring script
   template:
-    src: "../files/valheim-up.sh.j2"
+    src: "files/valheim-up.sh.j2"
     dest: "/usr/local/bin/valheim-up.sh"
     owner: root
     group: root

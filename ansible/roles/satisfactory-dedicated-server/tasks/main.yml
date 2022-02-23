@@ -60,7 +60,7 @@
   when: not satisfactory_downloaded.stat.exists
 - name: Add satisfactory systemd file
   template:
-    src: "../files/satisfactory.service.j2"
+    src: "files/satisfactory.service.j2"
     dest: "/etc/systemd/system/{{ satisfactory_service }}.service"
     owner: root
     group: root
@@ -71,7 +71,7 @@
     enabled: yes
 - name: Add satisfactory monitoring script
   template:
-    src: "../files/satisfactory-up.sh.j2"
+    src: "files/satisfactory-up.sh.j2"
     dest: "/usr/local/bin/satisfactory-up.sh"
     owner: root
     group: root
