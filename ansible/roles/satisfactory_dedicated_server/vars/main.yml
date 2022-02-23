@@ -1,6 +1,7 @@
 ---
 satisfactory_service: 'satisfactory'
 satisfactory_packages:
+  - ufw
   - software-properties-common
   - apt-utils
   - lib32gcc1

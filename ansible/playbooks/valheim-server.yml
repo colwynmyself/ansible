@@ -16,8 +16,6 @@
       community.general.ufw:
         rule: limit
         port: 22
-    - name: Valheim ufw rules
-      include: '../tasks/valheim-ufw-rules.yml'
     - name: Enable ufw
       community.general.ufw:
         state: enabled

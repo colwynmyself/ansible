@@ -97,3 +97,22 @@
     owner: root
     group: root
     mode: 0755
+# ufw rules
+- name: ufw - Allow valheim 2456 TCP
+  community.general.ufw:
+    comment: Valheim Game TCP port
+    rule: allow
+    port: 2456
+    proto: tcp
+- name: ufw - Allow valheim 2456 UDP
+  community.general.ufw:
+    comment: Valheim Game UDP port
+    rule: allow
+    port: 2456
+    proto: udp
+- name: ufw - Allow valheim 2457
+  community.general.ufw:
+    comment: Satisfactory Query port
+    rule: allow
+    port: 2457
+    proto: udp

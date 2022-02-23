@@ -82,3 +82,22 @@
     owner: root
     group: root
     mode: 0755
+# ufw rules
+- name: ufw - Allow satisfactory 7777
+  community.general.ufw:
+    comment: Satisfactory Game port
+    rule: allow
+    port: 7777
+    proto: udp
+- name: ufw - Allow satisfactory 15000
+  community.general.ufw:
+    comment: Satisfactory Beacon port
+    rule: allow
+    port: 15000
+    proto: udp
+- name: ufw - Allow satisfactory 15777
+  community.general.ufw:
+    comment: Satisfactory Query port
+    rule: allow
+    port: 15777
+    proto: udp

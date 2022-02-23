@@ -16,8 +16,6 @@
       community.general.ufw:
         rule: limit
         port: 22
-    - name: Satisfactory ufw rules
-      include: '../tasks/satisfactory-ufw-rules.yml'
     - name: Enable ufw
       community.general.ufw:
         state: enabled
