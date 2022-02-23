@@ -12,15 +12,15 @@
           - nginx
         update_cache: yes
     - name: Configure ufw basics
-      ufw:
+      community.general.ufw:
         default: reject
         logging: 'on'
     - name: ufw - Allow limited ssh
-      ufw:
+      community.general.ufw:
         rule: limit
         port: 22
     - name: Webserver ufw rules
       include: '../tasks/webserver-ufw-rules.yml'
     - name: Enable ufw
-      ufw:
+      community.general.ufw:
         state: enabled

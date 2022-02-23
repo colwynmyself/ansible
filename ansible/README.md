@@ -3,7 +3,7 @@
 - [Ansible Playbooks](#ansible-playbooks)
   - [Setup](#setup)
   - [Playbooks](#playbooks)
-    - [Digital Ocean Setup](#digital-ocean-setup)
+    - [Digital Ocean Setup](#digital_ocean_setup)
     - [Webserver Setup](#webserver-setup)
     - [Minecraft Server](#minecraft-server)
     - [Satisfactory Server](#satisfactory-server)
@@ -41,15 +41,15 @@ Basic Nginx webserver setup, nothing too fancy here.
 
 ### Minecraft Server
 
-Sets up `ufw` rules for Minecraft and invokes the `minecraft-dedicated-server` role. More info can be found in
-[the `README.md` for that role](roles/minecraft-dedicated-server).
+Sets up `ufw` rules for Minecraft and invokes the `minecraft_dedicated_server` role. More info can be found in
+[the `README.md` for that role](roles/minecraft_dedicated_server).
 
 ### Satisfactory Server
 
-Sets up `ufw` rules for Satisfactory and invokes the `satisfactory-dedicated-server` role. More info can be found in
-[the `README.md` for that role](roles/satisfactory-dedicated-server).
+Sets up `ufw` rules for Satisfactory and invokes the `satisfactory_dedicated_server` role. More info can be found in
+[the `README.md` for that role](roles/satisfactory_dedicated_server).
 
 ### Valheim Server
 
-Sets up `ufw` rules for Valheim and invokes the `valheim-dedicated-server` role. More info can be found in
-[the `README.md` for that role](roles/valheim-dedicated-server).
+Sets up `ufw` rules for Valheim and invokes the `valheim_dedicated_server` role. More info can be found in
+[the `README.md` for that role](roles/valheim_dedicated_server).

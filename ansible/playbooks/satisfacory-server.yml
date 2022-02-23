@@ -9,19 +9,17 @@
       package:
         name: ufw
     - name: Configure ufw basics
-      ufw:
+      community.general.ufw:
         default: reject
         logging: 'on'
     - name: ufw - Allow limited ssh
-      ufw:
+      community.general.ufw:
         rule: limit
         port: 22
-    - name: Satisfactory ufw rules
-      include: '../tasks/satisfactory-ufw-rules.yml'
     - name: Enable ufw
-      ufw:
+      community.general.ufw:
         state: enabled
     # satisfactory server
     - name: Install and configure Satisfactory server
       import_role:
-        name: ../roles/satisfactory-dedicated-server
+        name: ../roles/satisfactory_dedicated_server

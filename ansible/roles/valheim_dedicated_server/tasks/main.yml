@@ -5,7 +5,11 @@
     state: latest
   tags: valheim
 - name: Check if i386 has been enabled
-  shell: dpkg --print-foreign-architectures | grep i386 | wc -l
+  shell: |
+    set -o pipefail
+    dpkg --print-foreign-architectures | grep i386 | wc -l
+  args:
+    executable: /bin/bash
   register: i386_enabled
 - name: Enable i386 architecture
   command: dpkg --add-architecture i386
@@ -31,6 +35,7 @@
         state: directory
         owner: steam
         group: steam
+        mode: 0775
       tags: valheim
     - name: Download steamcmd
       become_user: steam
@@ -68,17 +73,18 @@
   tags: valheim
 - name: Add valheim start script
   template:
-    src: "../files/start-valheim.sh.j2"
+    src: "files/start-valheim.sh.j2"
     dest: "{{ valheim_install_dir }}/start-valheim.sh"
     owner: steam
     group: steam
     mode: 0755
 - name: Add valheim systemd file
   template:
-    src: "../files/valheim.service.j2"
+    src: "files/valheim.service.j2"
     dest: "/etc/systemd/system/{{ valheim_service }}.service"
     owner: root
     group: root
+    mode: 0644
 - name: Start and enable valheim service
   systemd:
     name: "{{ valheim_service }}"
@@ -86,8 +92,27 @@
     enabled: yes
 - name: Add valheim monitoring script
   template:
-    src: "../files/valheim-up.sh.j2"
+    src: "files/valheim-up.sh.j2"
     dest: "/usr/local/bin/valheim-up.sh"
     owner: root
     group: root
     mode: 0755
+# ufw rules
+- name: ufw - Allow valheim 2456 TCP
+  community.general.ufw:
+    comment: Valheim Game TCP port
+    rule: allow
+    port: 2456
+    proto: tcp
+- name: ufw - Allow valheim 2456 UDP
+  community.general.ufw:
+    comment: Valheim Game UDP port
+    rule: allow
+    port: 2456
+    proto: udp
+- name: ufw - Allow valheim 2457
+  community.general.ufw:
+    comment: Satisfactory Query port
+    rule: allow
+    port: 2457
+    proto: udp

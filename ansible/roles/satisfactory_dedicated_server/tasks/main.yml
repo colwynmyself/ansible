@@ -5,7 +5,11 @@
     state: latest
   tags: satisfactory
 - name: Check if i386 has been enabled
-  shell: dpkg --print-foreign-architectures | grep i386 | wc -l
+  shell: |
+    set -o pipefail
+    dpkg --print-foreign-architectures | grep i386 | wc -l
+  args:
+    executable: /bin/bash
   register: i386_enabled
 - name: Enable i386 architecture
   command: dpkg --add-architecture i386
@@ -31,6 +35,7 @@
         state: directory
         owner: steam
         group: steam
+        mode: 0775
       tags: satisfactory
     - name: Download steamcmd
       become_user: steam
@@ -60,10 +65,11 @@
   when: not satisfactory_downloaded.stat.exists
 - name: Add satisfactory systemd file
   template:
-    src: "../files/satisfactory.service.j2"
+    src: "files/satisfactory.service.j2"
     dest: "/etc/systemd/system/{{ satisfactory_service }}.service"
     owner: root
     group: root
+    mode: 0644
 - name: Start and enable satisfactory service
   systemd:
     name: "{{ satisfactory_service }}"
@@ -71,8 +77,27 @@
     enabled: yes
 - name: Add satisfactory monitoring script
   template:
-    src: "../files/satisfactory-up.sh.j2"
+    src: "files/satisfactory-up.sh.j2"
     dest: "/usr/local/bin/satisfactory-up.sh"
     owner: root
     group: root
     mode: 0755
+# ufw rules
+- name: ufw - Allow satisfactory 7777
+  community.general.ufw:
+    comment: Satisfactory Game port
+    rule: allow
+    port: 7777
+    proto: udp
+- name: ufw - Allow satisfactory 15000
+  community.general.ufw:
+    comment: Satisfactory Beacon port
+    rule: allow
+    port: 15000
+    proto: udp
+- name: ufw - Allow satisfactory 15777
+  community.general.ufw:
+    comment: Satisfactory Query port
+    rule: allow
+    port: 15777
+    proto: udp
