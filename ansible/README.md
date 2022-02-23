@@ -15,7 +15,7 @@ if you want some more context.
 
 These can all be run by reading the playbooks, seeing what inventory they use, and running
 `ansible-playbook -i inventories/digitalocean playbooks/PLAYBOOK.yml`. Sorry, you won't be able to use the existing
-inventory unless you steal my SSH key - which if you have then have fun!
+inventory unless you steal my SSH key - if you've done that then have fun!
 
 ### Digital Ocean Setup
 
