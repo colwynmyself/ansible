@@ -1,0 +1,126 @@
+- name: Install dependencies
+  package:
+    name: "{{ minecraft_packages }}"
+    update_cache: yes
+    state: latest
+- name: Add minecraft user
+  user:
+    name: minecraft
+    create_home: yes
+    shell: /bin/bash
+# mscs installation
+- name: Check if mscs has been installed
+  stat:
+    path: "{{ minecraft_bin_dir }}/mscs"
+  register: mscs_downloaded
+- name: Install mscs
+  block:
+  - name: Clone mscs
+    git:
+      repo: 'https://github.com/MinecraftServerControl/mscs.git'
+      dest: "{{ minecraft_mscs_git_dir }}"
+      version: main
+  - name: Make sure {{ minecraft_install_dir }} exists
+    file:
+      path: "{{ minecraft_install_dir }}"
+      state: directory
+      mode: '0755'
+      owner: minecraft
+      group: minecraft
+  - name: Install msctl
+    become: true
+    command:
+      chdir: "{{ minecraft_mscs_git_dir }}"
+      creates: "{{ minecraft_bin_dir }}/msctl"
+      cmd: "install -m 0755 msctl {{ minecraft_bin_dir }}/msctl"
+  - name: Install mscs
+    become: true
+    command:
+      chdir: "{{ minecraft_mscs_git_dir }}"
+      creates: "{{ minecraft_bin_dir }}/mscs"
+      cmd: "install -m 0755 mscs {{ minecraft_bin_dir }}/mscs"
+  - name: Install mscs.service
+    become: true
+    command:
+      chdir: "{{ minecraft_mscs_git_dir }}"
+      creates: "/etc/systemd/system/{{ minecraft_service }}.service"
+      cmd: "install -m 0755 mscs.service /etc/systemd/system/{{ minecraft_service }}.service"
+  - name: Install mscs.completion
+    become: true
+    command:
+      chdir: "{{ minecraft_mscs_git_dir }}"
+      creates: "/etc/bash_completion.d/mscs"
+      cmd: "install -m 0644 mscs.completion /etc/bash_completion.d/mscs"
+  when: not mscs_downloaded.stat.exists
+# Setup crons and monitoring
+- name: Add backup cron
+  template:
+    src: "../files/minecraft.cron.j2"
+    dest: "/etc/cron.d/minecraft"
+    owner: root
+    group: root
+    mode: 0644
+- name: Add monitoring script
+  template:
+    src: "../files/minecraft-up.sh.j2"
+    dest: "{{ minecraft_bin_dir }}/minecraft-up.sh"
+    owner: root
+    group: root
+    mode: 0755
+# Create default world if it doesn't exist
+- name: Check if {{ minecraft_default_world }} has been created
+  stat:
+    path: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/eula.txt"
+  register: world_created
+- name: Create and configure mscs
+  block:
+  - name: Create world {{ minecraft_default_world }}
+    become_user: minecraft
+    command:
+      cmd: "mscs create {{ minecraft_default_world }}"
+  - name: Accept EULA for {{ minecraft_default_world }}
+    become_user: minecraft
+    copy:
+      dest: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/eula.txt"
+      content: 'eula=true'
+  when: not world_created.stat.exists
+- name: Start and enable minecraft service
+  systemd:
+    name: "{{ minecraft_service }}"
+    state: started
+    enabled: yes
+# We can edit config now! Setup PaperMC
+# Global config is at {{ minecraft_install_die }}/mscs.defaults
+# Server config is at {{ minecraft_install_die }}/worlds/{{ minecraft_default_world }}/mscs.properties
+- name: Check if {{ minecraft_default_world }} has been configured with PaperMC and is up to date
+  lineinfile:
+    path: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
+    regexp: "mscs-server-jar=paper-{{ minecraft_papermc_version }}.jar"
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: papermc_setup
+- name: Configure {{ minecraft_default_world }}
+  block:
+  - name: Register {{ minecraft_default_world }} status
+    become_user: minecraft
+    command:
+      cmd: mscs status {{ minecraft_default_world }}
+    register: world_status
+  - name: Stop world {{ minecraft_default_world }}
+    become_user: minecraft
+    command:
+      cmd: "mscs stop {{ minecraft_default_world }}"
+    when: not world_status.stdout is search("not running") # Only stop the world if it is not stopped
+  - name: Add mscs.properties
+    template:
+      src: "../files/mscs.properties.j2"
+      dest: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
+      owner: minecraft
+      group: minecraft
+      mode: 0664
+  - name: Start world {{ minecraft_default_world }}
+    become_user: minecraft
+    command:
+      cmd: "mscs start {{ minecraft_default_world }}"
+  when: not papermc_setup.found

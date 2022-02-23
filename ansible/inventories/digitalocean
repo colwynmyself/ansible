@@ -4,6 +4,9 @@
 [valheim]
 198.199.100.233 ansible_user=colwyn
 
+[minecraft]
+198.199.100.233 ansible_user=colwyn
+
 [webserver]
 107.170.241.26 ansible_user=colwyn
 157.230.132.152 ansible_user=colwyn

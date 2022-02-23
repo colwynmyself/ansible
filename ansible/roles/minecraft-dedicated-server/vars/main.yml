@@ -1,0 +1,32 @@
+---
+# Find these at https://papermc.io/downloads
+minecraft_papermc_version: '1.18.1' # Minecraft version
+minecraft_papermc_build: '214' # PaperMC build
+
+#############################################################
+# NOTE: The world name does not impact anything client side #
+#############################################################
+minecraft_default_world: 'friendos' # World name
+
+#################################################################
+# WARNING: You almost certainly don't want to edit any of these #
+#################################################################
+minecraft_service: 'mscs'
+minecraft_bin_dir: '/usr/local/bin'
+minecraft_install_dir: '/opt/mscs'
+minecraft_mscs_git_dir: '/home/minecraft/mscs'
+minecraft_packages:
+  - openjdk-17-jre # default-jre installs too old of a version
+  - perl
+  - libjson-perl
+  - libwww-perl
+  - liblwp-protocol-https-perl
+  - util-linux
+  - python
+  - make
+  - wget
+  - git
+  - rdiff-backup
+  - rsync
+  - socat
+  - iptables
