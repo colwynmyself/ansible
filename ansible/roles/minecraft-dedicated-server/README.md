@@ -1,5 +1,10 @@
 # Minecraft Dedicated Server
 
+- [Minecraft Dedicated Server](#minecraft-dedicated-server)
+  - [Post installation](#post-installation)
+    - [General Server Configuration](#general-server-configuration)
+    - [Allowlist](#allowlist)
+
 Ansible role for a Java dedicated server. Random notes in here.
 
 Sets up a server with [Minecraft Server Manager](https://minecraftservercontrol.github.io/docs/mscs/installation) and
@@ -7,6 +12,13 @@ Sets up a server with [Minecraft Server Manager](https://minecraftservercontrol.
 dir, and more!
 
 ## Post installation
+
+### General Server Configuration
+
+There are all sorts of things you may want to edit. `/ops/mscs/worlds/friendos/server.properties` is the place to make
+those edits.
+
+### Allowlist
 
 The allowlist is not enabled by default, if you would like to use it then you'll have to manually add it. It will be
 located by default at `/opt/mscs/worlds/friendos/whitelist.json`. Fetch UUIDs from <https://mcuuid.net>
