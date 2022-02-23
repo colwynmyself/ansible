@@ -22,4 +22,4 @@
     # DO setup
     - name: Setup Digital Ocean
       import_role:
-        name: '../roles/digital-ocean-setup'
+        name: '../roles/digital_ocean_setup'

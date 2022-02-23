@@ -23,4 +23,4 @@
         state: enabled
     - name: Install and configure Valheim server
       import_role:
-        name: ../roles/valheim-dedicated-server
+        name: ../roles/valheim_dedicated_server

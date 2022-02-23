@@ -24,4 +24,4 @@
     # satisfactory server
     - name: Install and configure Satisfactory server
       import_role:
-        name: ../roles/satisfactory-dedicated-server
+        name: ../roles/satisfactory_dedicated_server

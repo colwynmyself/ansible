@@ -21,4 +21,4 @@
         state: enabled
     - name: Install and configure Minecraft server
       import_role:
-        name: ../roles/minecraft-dedicated-server
+        name: ../roles/minecraft_dedicated_server

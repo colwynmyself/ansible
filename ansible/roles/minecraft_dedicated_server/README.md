@@ -1,6 +1,6 @@
 # Minecraft Dedicated Server
 
-- [Minecraft Dedicated Server](#minecraft-dedicated-server)
+- [Minecraft Dedicated Server](#minecraft_dedicated_server)
   - [Post installation](#post-installation)
     - [General Server Configuration](#general-server-configuration)
     - [Allowlist](#allowlist)

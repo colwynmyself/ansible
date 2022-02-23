@@ -1,0 +1,3 @@
+skip_list:
+  - no-changed-when  # False positive for bash commands
+  - package-latest  # I'm lazy, sorry about it
