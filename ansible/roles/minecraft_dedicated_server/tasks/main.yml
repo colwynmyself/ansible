@@ -154,6 +154,13 @@
     regexp: '^mscs-maps-url='
     line: "mscs-maps-url=https://{{ minecraft_overviewer_maps_domain }}"
     path: "{{ minecraft_install_dir }}/mscs.defaults"
+# Nginx setup
+- name: Ensure server_tokens are off
+  lineinfile:
+    regexp: 'server_tokens'
+    line: 'server_tokens off;'
+    path: '/etc/nginx/nginx.conf'
+  notify: restart-nginx
 - name: Ensure {{ minecraft_overviewer_maps_dir }} exists
   file:
     path: "{{ minecraft_overviewer_maps_dir }}"
@@ -178,6 +185,7 @@
     group: root
     mode: 0644
   notify: reload-nginx
+  # TODO: Fix this line
   when: not certbot_run.found
 - name: Start and enable nginx service
   systemd:

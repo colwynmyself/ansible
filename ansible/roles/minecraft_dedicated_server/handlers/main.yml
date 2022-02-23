@@ -6,3 +6,7 @@
   service:
     name: "{{ minecraft_nginx_service }}"
     state: reloaded
+- name: restart-nginx
+  service:
+    name: "{{ minecraft_nginx_service }}"
+    state: restarted
