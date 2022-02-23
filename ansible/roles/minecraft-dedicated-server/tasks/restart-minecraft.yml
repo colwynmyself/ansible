@@ -1,0 +1,19 @@
+---
+- name: restart-minecraft
+  block:
+  - name: Register {{ minecraft_default_world }} status
+    become_user: minecraft
+    command:
+      cmd: mscs status {{ minecraft_default_world }}
+    register: world_status
+  - name: Stop world {{ minecraft_default_world }}
+    become_user: minecraft
+    command:
+      cmd: "mscs stop {{ minecraft_default_world }}"
+    # Only stop the world if it is not stopped
+    when: not world_status.stdout is search("not running")
+  - name: Start world {{ minecraft_default_world }}
+    become_user: minecraft
+    command:
+      cmd: "mscs start {{ minecraft_default_world }}"
+

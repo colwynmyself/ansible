@@ -92,39 +92,15 @@
 
 # We can edit config now! Setup PaperMC
 
-# Global config is at {{ minecraft_install_die }}/mscs.defaults
-# Server config is at {{ minecraft_install_die }}/worlds/{{ minecraft_default_world }}/mscs.properties
+# Global config is at {{ minecraft_install_dir }}/mscs.defaults
+# Server config is at {{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties
 
-# Source: https://stackoverflow.com/a/54525651
-- name: Check if {{ minecraft_default_world }} has been configured with PaperMC and is up to date
-  lineinfile:
-    path: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
-    regexp: "mscs-server-jar=paper-{{ minecraft_papermc_version }}.jar"
-    state: absent
-  check_mode: yes
-  changed_when: false
-  register: papermc_setup
-- name: Configure {{ minecraft_default_world }}
-  block:
-  - name: Register {{ minecraft_default_world }} status
-    become_user: minecraft
-    command:
-      cmd: mscs status {{ minecraft_default_world }}
-    register: world_status
-  - name: Stop world {{ minecraft_default_world }}
-    become_user: minecraft
-    command:
-      cmd: "mscs stop {{ minecraft_default_world }}"
-    when: not world_status.stdout is search("not running") # Only stop the world if it is not stopped
-  - name: Add mscs.properties
-    template:
-      src: "../files/mscs.properties.j2"
-      dest: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
-      owner: minecraft
-      group: minecraft
-      mode: 0664
-  - name: Start world {{ minecraft_default_world }}
-    become_user: minecraft
-    command:
-      cmd: "mscs start {{ minecraft_default_world }}"
-  when: not papermc_setup.found
+- name: Add mscs.properties
+  template:
+    src: "../files/mscs.properties.j2"
+    dest: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties"
+    owner: minecraft
+    group: minecraft
+    mode: 0664
+  notify:
+  - restart-minecraft

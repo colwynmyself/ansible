@@ -9,9 +9,9 @@ dir, and more!
 ## Post installation
 
 The allowlist is not enabled by default, if you would like to use it then you'll have to manually add it. It will be
-located by default at `/opt/mscs/worlds/friendos/whitelist.json`.
+located by default at `/opt/mscs/worlds/friendos/whitelist.json`. Fetch UUIDs from <https://mcuuid.net>
 
-1. Edit `/opt/mscs/worlds/friendos/whitelist.json`. Fetch UUIDs from <https://mcuuid.net>
+1. Edit `/opt/mscs/worlds/friendos/whitelist.json`.
 
    ```json
    [
@@ -22,8 +22,10 @@ located by default at `/opt/mscs/worlds/friendos/whitelist.json`.
    ]
    ```
 
-2. Edit `/opt/mscs/worlds/friendos/ops.json` to make yourself an OP. I generally recommend using OP level 3 so server
-   management still happens at the CLI level. Fetch UUIDs from <https://mcuuid.net>
+2. Edit `/opt/mscs/worlds/friendos/ops.json` to make yourself an OP. **NOTE:** I recommend using OP level 3 so server
+   management still happens at the CLI level. This is important because
+   [MSCS will view `/stop` commands as a crash](https://minecraftservercontrol.github.io/docs/mscs/crash-detection#notes)
+   and automatically restart the server if an OP tries to stop the server using `/stop`.
 
    ```json
    [
