@@ -31,6 +31,7 @@
         state: directory
         owner: steam
         group: steam
+        mode: 0775
       tags: satisfactory
     - name: Download steamcmd
       become_user: steam
@@ -64,6 +65,7 @@
     dest: "/etc/systemd/system/{{ satisfactory_service }}.service"
     owner: root
     group: root
+    mode: 0644
 - name: Start and enable satisfactory service
   systemd:
     name: "{{ satisfactory_service }}"

@@ -83,6 +83,7 @@
     copy:
       dest: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/eula.txt"
       content: 'eula=true'
+      mode: 0644
   when: not world_created.stat.exists
 - name: Start and enable minecraft service
   systemd:
@@ -107,7 +108,7 @@
 
 # Configure ufw
 - name: ufw - Allow minecraft 25565 TCP
-  ufw:
+  community.general.ufw:
     comment: Minecraft Game TCP port
     rule: allow
     port: 25565

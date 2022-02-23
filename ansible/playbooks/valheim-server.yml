@@ -9,17 +9,17 @@
       package:
         name: ufw
     - name: Configure ufw basics
-      ufw:
+      community.general.ufw:
         default: reject
         logging: 'on'
     - name: ufw - Allow limited ssh
-      ufw:
+      community.general.ufw:
         rule: limit
         port: 22
     - name: Valheim ufw rules
       include: '../tasks/valheim-ufw-rules.yml'
     - name: Enable ufw
-      ufw:
+      community.general.ufw:
         state: enabled
     - name: Install and configure Valheim server
       import_role:

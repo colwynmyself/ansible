@@ -1,11 +1,11 @@
 - name: ufw - allow http
-  ufw:
+  community.general.ufw:
     comment: http
     rule: allow
     port: 80
     proto: tcp
 - name: ufw - allow https
-  ufw:
+  community.general.ufw:
     comment: https
     rule: allow
     port: 443

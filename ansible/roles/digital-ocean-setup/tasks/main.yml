@@ -59,6 +59,7 @@
     owner: root
     group: root
     src: 'files/unattended-upgrades/50unattended-upgrades'
+    mode: 0644
   notify: update-unattended-upgrades
 - name: Add 20auto-upgrades
   copy:
@@ -66,6 +67,7 @@
     owner: root
     group: root
     src: 'files/unattended-upgrades/20auto-upgrades'
+    mode: 0644
   notify: update-unattended-upgrades
 # Install fail2ban
 - name: Install fail2ban
@@ -77,6 +79,7 @@
     owner: root
     group: root
     src: 'files/fail2ban/customisation.local'
+    mode: 0644
   notify: restart-fail2ban
 - name: Start and enable fail2ban
   systemd:
@@ -91,6 +94,7 @@
     group: root
     mode: '0440'
     src: 'files/sudoers.d/10-nopassword'
+    mode: 0440
 - name: Disable password authentication
   lineinfile:
     dest: /etc/ssh/sshd_config
