@@ -94,7 +94,6 @@
     group: root
     mode: '0440'
     src: 'files/sudoers.d/10-nopassword'
-    mode: 0440
 - name: Disable password authentication
   lineinfile:
     dest: /etc/ssh/sshd_config
