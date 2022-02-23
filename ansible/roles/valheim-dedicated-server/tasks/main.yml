@@ -35,6 +35,7 @@
         state: directory
         owner: steam
         group: steam
+        mode: 0775
       tags: valheim
     - name: Download steamcmd
       become_user: steam
@@ -83,6 +84,7 @@
     dest: "/etc/systemd/system/{{ valheim_service }}.service"
     owner: root
     group: root
+    mode: 0644
 - name: Start and enable valheim service
   systemd:
     name: "{{ valheim_service }}"
