@@ -7,9 +7,9 @@
 
 Ansible role for a Java dedicated server. Random notes in here.
 
-Sets up a server with [Minecraft Server Manager](https://minecraftservercontrol.github.io/docs/mscs/installation) and
-[PaperMC](https://papermc.io/) installed. Check `vars/main.yml` for things like the world name, PaperMC version, install
-dir, and more!
+Sets up a server with [Minecraft Server Control Script](https://minecraftservercontrol.github.io/docs/mscs/installation)
+and [PaperMC](https://papermc.io/) installed. Check `vars/main.yml` for things like the world name, PaperMC version,
+install dir, and more!
 
 ## Post installation
 
