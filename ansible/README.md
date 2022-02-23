@@ -28,14 +28,14 @@ Basic Nginx webserver setup, nothing too fancy here.
 ### Minecraft Server
 
 Sets up `ufw` rules for Minecraft and invokes the `minecraft-dedicated-server` role. More info can be found in
-[the `README.md` for that role](roles/minecraft-dedicated-server/README.md).
+[the `README.md` for that role](roles/minecraft-dedicated-server).
 
 ### Satisfactory Server
 
 Sets up `ufw` rules for Satisfactory and invokes the `satisfactory-dedicated-server` role. More info can be found in
-[the `README.md` for that role](roles/satisfactory-dedicated-server/README.md).
+[the `README.md` for that role](roles/satisfactory-dedicated-server).
 
 ### Valheim Server
 
 Sets up `ufw` rules for Valheim and invokes the `valheim-dedicated-server` role. More info can be found in
-[the `README.md` for that role](roles/valheim-dedicated-server/README.md).
+[the `README.md` for that role](roles/valheim-dedicated-server).
