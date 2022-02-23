@@ -1,15 +1,3 @@
-# Install Overviewer
-# http://docs.overviewer.org/en/latest/installing/#debian-ubuntu
-# TODO: Fetch this key's ID and hardcode it here
-- name: Add overviewer apt key
-  apt_key:
-    url: https://overviewer.org/debian/overviewer.gpg.asc
-    state: present
-- name: Add overviewer repo
-  apt_repository:
-    repo: deb https://overviewer.org/debian ./
-    state: present
-
 - name: Install dependencies
   package:
     name: "{{ minecraft_packages }}"
@@ -28,6 +16,7 @@
 - name: Install mscs
   block:
   - name: Clone mscs
+    become_user: minecraft # make sure the right user owns the folder
     git:
       repo: 'https://github.com/MinecraftServerControl/mscs.git'
       dest: "{{ minecraft_mscs_git_dir }}"
@@ -125,3 +114,24 @@
     rule: allow
     port: 25565
     proto: tcp
+
+# Install Overviewer from source since Ubuntu 20.04 packages are broken
+# http://docs.overviewer.org/en/latest/building/#linux
+- name: Clone overviewer
+  become_user: minecraft # make sure the right user owns the folder
+  git:
+    repo: 'https://github.com/overviewer/Minecraft-Overviewer.git'
+    dest: "{{ minecraft_overviewer_git_dir }}"
+    version: master
+  register: overviewer_git
+- name: Install overviewer
+  become_user: minecraft
+  command:
+    chdir: "{{ minecraft_overviewer_git_dir }}"
+    cmd: "python3 setup.py build"
+  # Only build on git updates
+  when: overviewer_git.before != overviewer_git.after
+- name: Add overviewer to PATH
+  lineinfile:
+    line: export PATH=$PATH:{{ minecraft_overviewer_git_dir }}
+    path: /home/minecraft/.profile

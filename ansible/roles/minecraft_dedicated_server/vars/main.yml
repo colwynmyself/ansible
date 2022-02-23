@@ -11,10 +11,16 @@ minecraft_default_world: 'friendos' # World name
 #################################################################
 # WARNING: You almost certainly don't want to edit any of these #
 #################################################################
+
+# MSCS
 minecraft_service: 'mscs'
 minecraft_bin_dir: '/usr/local/bin'
 minecraft_install_dir: '/opt/mscs'
 minecraft_mscs_git_dir: '/home/minecraft/mscs'
+
+# Overviewer
+minecraft_overviewer_git_dir: '/home/minecraft/overviewer'
+
 minecraft_packages:
   - ufw
   - openjdk-17-jre # default-jre installs too old of a version
@@ -31,4 +37,8 @@ minecraft_packages:
   - rsync
   - socat
   - iptables
-  - minecraft-overviewer
+  # overviewer
+  - build-essential
+  - python3-pil
+  - python3-dev
+  - python3-numpy
