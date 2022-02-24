@@ -169,6 +169,11 @@
     line: 'server_tokens off;'
     path: '/etc/nginx/nginx.conf'
   notify: restart-nginx
+- name: Remove default server
+  file:
+    path: '/etc/nginx/sites-enabled/default'
+    state: absent
+  notify: reload-nginx
 - name: Ensure {{ minecraft_overviewer_maps_dir }} exists
   file:
     path: "{{ minecraft_overviewer_maps_dir }}"
