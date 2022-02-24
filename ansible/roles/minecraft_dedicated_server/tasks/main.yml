@@ -93,6 +93,7 @@
 
 # Global config is at {{ minecraft_install_dir }}/mscs.defaults
 # Server config is at {{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties
+# Base minecraft server config is at {{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/server.properties
 
 - name: Add mscs.properties
   template:
@@ -101,6 +102,13 @@
     owner: minecraft
     group: minecraft
     mode: 0664
+  notify:
+  - restart-minecraft
+- name: Disable spawn protection
+  lineinfile:
+    regexp: '^spawn-protection='
+    line: "spawn-protection=0"
+    path: "{{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/server.properties"
   notify:
   - restart-minecraft
 
