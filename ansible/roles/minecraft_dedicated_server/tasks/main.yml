@@ -194,7 +194,7 @@
     mode: 0644
   notify: reload-nginx
   # TODO: Fix this line
-  when: not certbot_run.found
+  when: certbot_run.found is not defined or not certbot_run.found
 - name: Start and enable nginx service
   systemd:
     name: "{{ minecraft_nginx_service }}"
