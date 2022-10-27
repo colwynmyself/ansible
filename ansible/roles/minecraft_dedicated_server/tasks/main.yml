@@ -130,25 +130,25 @@
 # Configure ufw
 - name: ufw - Allow minecraft 25565 TCP
   community.general.ufw:
-    comment: Minecraft Game TCP port
+    comment: Minecraft Java TCP port
     rule: allow
     port: 25565
     proto: tcp
 - name: ufw - Allow GeyserMC minecraft 19132 UDP
   community.general.ufw:
-    comment: Minecraft Game TCP port
+    comment: GeyserMC Bedrock UDP port
     rule: allow
     port: 19132
     proto: udp
 - name: ufw - Allow minecraft maps 80 TCP
   community.general.ufw:
-    comment: Minecraft Game TCP port
+    comment: Overviewer HTTP port
     rule: allow
     port: 80
     proto: tcp
 - name: ufw - Allow minecraft maps 443 TCP
   community.general.ufw:
-    comment: Minecraft Game TCP port
+    comment: Overviewer HTTPS port
     rule: allow
     port: 443
     proto: tcp
