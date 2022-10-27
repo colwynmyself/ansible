@@ -65,6 +65,21 @@
     owner: root
     group: root
     mode: 0755
+# If using spigot, install the right version
+- name: Install spigot if needed
+  block:
+    - name: Download Spigot BuildTools
+      become_user: minecraft
+      get_url:
+        url: https://hub.spigotmc.org/jenkins/job/BuildTools/{{ minecraft_spigot_build }}/artifact/target/BuildTools.jar
+        dest: "{{ minecraft_install_dir }}/server/BuildTools.jar"
+    - name: Install Spigot {{ minecraft_version }}
+      become_user: minecraft
+      command:
+        chdir: "{{ minecraft_install_dir }}/server"
+        cmd: "java -jar BuildTools.jar --rev {{ minecraft_version }}"
+        creates: "{{ minecraft_install_dir }}/server/spigot-{{ minecraft_version }}.jar"
+  when: minecraft_server_tool == 'spigot'
 # Create default world if it doesn't exist
 - name: Check if {{ minecraft_default_world }} has been created
   stat:
@@ -89,7 +104,7 @@
     state: started
     enabled: yes
 
-# We can edit config now! Setup PaperMC
+# We can edit config now! Setup our world
 
 # Global config is at {{ minecraft_install_dir }}/mscs.defaults
 # Server config is at {{ minecraft_install_dir }}/worlds/{{ minecraft_default_world }}/mscs.properties
@@ -119,6 +134,12 @@
     rule: allow
     port: 25565
     proto: tcp
+- name: ufw - Allow GeyserMC minecraft 19132 UDP
+  community.general.ufw:
+    comment: Minecraft Game TCP port
+    rule: allow
+    port: 19132
+    proto: udp
 - name: ufw - Allow minecraft maps 80 TCP
   community.general.ufw:
     comment: Minecraft Game TCP port

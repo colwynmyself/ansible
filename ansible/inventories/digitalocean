@@ -1,6 +1,3 @@
-[satisfactory]
-138.68.196.20 ansible_user=colwyn
-
 [valheim]
 198.199.100.233 ansible_user=colwyn
 
@@ -9,10 +6,7 @@
 
 [webserver]
 107.170.241.26 ansible_user=colwyn
-157.230.132.152 ansible_user=colwyn
 
 [digitalocean]
-138.68.196.20 ansible_user=colwyn
 198.199.100.233 ansible_user=colwyn
 107.170.241.26 ansible_user=colwyn
-157.230.132.152 ansible_user=colwyn

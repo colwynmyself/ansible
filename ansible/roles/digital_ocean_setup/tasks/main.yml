@@ -30,23 +30,23 @@
 # wget -qO- https://repos-droplet.digitalocean.com/install.sh | less
 # TODO: Need to check if this is already installed. DO installs it by default with a signing key and creates conflicts
 # with these steps, breaking apt-get
-- name: Add Digital Ocean console agent apt key
-  apt_key:
-    url: https://repos-droplet.digitalocean.com/gpg.key
-    state: present
-- name: Add Digital Ocean console agent repo
-  apt_repository:
-    repo: deb https://repos-droplet.digitalocean.com/apt/droplet-agent/ main main
-    state: present
-- name: Install Digital Ocean console agent
-  package:
-    name: "{{ digital_ocean_console_service }}"
-    update_cache: yes
-- name: Start and enable Digital Ocean console agent
-  systemd:
-    name: "{{ digital_ocean_console_service }}"
-    state: started
-    enabled: yes
+# - name: Add Digital Ocean console agent apt key
+#   apt_key:
+#     url: https://repos-droplet.digitalocean.com/gpg.key
+#     state: present
+# - name: Add Digital Ocean console agent repo
+#   apt_repository:
+#     repo: deb https://repos-droplet.digitalocean.com/apt/droplet-agent/ main main
+#     state: present
+# - name: Install Digital Ocean console agent
+#   package:
+#     name: "{{ digital_ocean_console_service }}"
+#     update_cache: yes
+# - name: Start and enable Digital Ocean console agent
+#   systemd:
+#     name: "{{ digital_ocean_console_service }}"
+#     state: started
+#     enabled: yes
 # Setup unattended upgrades
 - name: Install unattended-upgrades
   apt:

@@ -1,12 +1,20 @@
 ---
+minecraft_version: '1.19.2' # Minecraft version
+minecraft_overviewer_maps_domain: 'minecraft.colwyn.me'
+# papermc and spigot are currently accepted
+minecraft_server_tool: 'spigot'
+
 # Find these at https://papermc.io/downloads
-minecraft_papermc_version: '1.18.1' # Minecraft version
-minecraft_papermc_build: '214' # PaperMC build
+minecraft_papermc_build: '214'
+
+# Find these at https://hub.spigotmc.org/jenkins/job/BuildTools/
+# Latest is probably just fine
+minecraft_spigot_build: 'lastSuccessfulBuild'
 
 #############################################################
 # NOTE: The world name does not impact anything client side #
 #############################################################
-minecraft_default_world: 'friendos' # World name
+minecraft_default_world: 'spigot' # World name
 
 #################################################################
 # WARNING: You almost certainly don't want to edit any of these #
@@ -21,7 +29,6 @@ minecraft_mscs_git_dir: '/home/minecraft/mscs'
 # Overviewer
 minecraft_overviewer_git_dir: '/home/minecraft/overviewer'
 minecraft_overviewer_maps_dir: '/var/www/mscs'
-minecraft_overviewer_maps_domain: 'minecraft.colwyn.me'
 minecraft_nginx_conf_dir: '/etc/nginx/conf.d'
 minecraft_nginx_service: nginx
 
