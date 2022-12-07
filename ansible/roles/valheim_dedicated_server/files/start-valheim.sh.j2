@@ -2,7 +2,7 @@
 
 # If we're booting up with mods
 if [[ -f './start_server_bepinex.sh' ]]; then
-  ./start_server_bepinex.sh -name "{{ valheim_server_name }}" -port "{{ valheim_game_port }}" '<-nographics>' '<-batchmode>' -world "{{ valheim_world_name }}" -password "{{ valheim_server_password }}" -savedir "{{ valheim_save_dir }}" -public 0
+  ./start_server_bepinex.sh -name "{{ valheim_server_name }}" -port "{{ valheim_game_port }}" -world "{{ valheim_world_name }}" -password "{{ valheim_server_password }}" -savedir "{{ valheim_save_dir }}" -public 0
 else
   export templdpath=$LD_LIBRARY_PATH
   export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH

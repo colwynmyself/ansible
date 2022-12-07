@@ -6,7 +6,6 @@
   tags: valheim
 - name: Check if i386 has been enabled
   shell: |
-    set -o pipefail
     dpkg --print-foreign-architectures | grep i386 | wc -l
   args:
     executable: /bin/bash

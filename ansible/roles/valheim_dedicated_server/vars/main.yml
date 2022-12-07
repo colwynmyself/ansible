@@ -3,7 +3,7 @@ valheim_service: 'valheim'
 valheim_app_id: '896660'
 valheim_game_port: '2456'
 valheim_server_name: 'ourhouse'
-valheim_world_name: 'dontfuckitup'
+valheim_world_name: 'mistbongbois'
 valheim_server_password: '' # get user input here from ansible
 valheim_save_dir: '/home/steam/saves/valheim'
 valheim_packages:
@@ -11,5 +11,6 @@ valheim_packages:
   - software-properties-common
   - apt-utils
   - lib32gcc1
+  - libc6-dev
 steam_install_dir: '/home/steam/steamgames'
 valheim_install_dir: '/home/steam/steamgames/ValheimDedicatedServer'
